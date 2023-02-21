@@ -55,7 +55,7 @@ module.exports.createWebhook = async (event) => {
     try {
       const { page = 1, limit = 10 } = event.queryStringParameters || {};
     
-      const { count, rows } = await webhook.findAndCountAll({
+      const { count, rows } = await webhook.findAndCountAll({ where:{is_deleted:0},
         offset: (page - 1) * limit,
         limit,
       });
@@ -90,8 +90,8 @@ module.exports.createWebhook = async (event) => {
   module.exports.deleteWebhook = async (event) => {
     try {
       const { id } = JSON.parse(event.body);
-
-     const result =await webhook.update({is_deleted:1},{ where: { id} });
+      var date = new Date();
+     const result =await webhook.update({is_deleted:1,updated_ts:date,updated_dt:date},{ where: { id:id} });
   
       return {
         statusCode: 200,
