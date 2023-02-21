@@ -3,7 +3,7 @@ module.exports=function(sequelize,DataTypes){
     return sequelize.define("webhookschema",{
         
         event_type: {
-            type: DataTypes.ENUM('reimbursement_accepted', 'reimbursement_rejected'),
+            type: DataTypes.STRING,
             allowNull: false,
             validate: {
               isIn: [['reimbursement_accepted', 'reimbursement_rejected']],
@@ -19,11 +19,11 @@ module.exports=function(sequelize,DataTypes){
         cmp_id:{
             type:DataTypes.INTEGER
         },
-        isActive: {
+        is_active: {
             type: DataTypes.INTEGER,
             defaultValue: 1
           },
-          isDeleted: {
+          is_deleted: {
             type: DataTypes.INTEGER,
             defaultValue:0
           },

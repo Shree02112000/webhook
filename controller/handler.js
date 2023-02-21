@@ -5,7 +5,7 @@ const Op = sequelize.Op;
 const moment = require("moment")
 
 module.exports.createWebhook = async (event) => {
-  console.log(webhook,"ssddd")
+
     try {
       const {event_type,webhook_url,cmp_id } = JSON.parse(event.body);
   
@@ -65,15 +65,12 @@ module.exports.createWebhook = async (event) => {
           event_type:a.event_type,
           webhook_url:a.webhook_url,
           cmp_id:a.cmp_id,
-          isActive:a.isActive,
-          isDeleted:a.isDeleted,
+          is_active:a.is_active,
+          is_deleted:a.is_deleted,
+          added_dt:moment(a.added_dt).format('D MMM YYYY'),
           added_ts:moment(a.added_ts).format('D MMM YYYY, hh:mm A'),
-          added_dt:a.added_dt,
-          updated_dt:a.updated_dt,
-          updated_ts:moment(a.updated_ts).format(' D MMM YYYY, hh:mm A')
-
-          
-          
+          updated_dt:moment(a.updated_dt).format('D MMM YYYY'),
+          updated_ts:moment(a.updated_ts).format('D MMM YYYY, hh:mm A'),
         }
       })
       return {
