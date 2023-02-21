@@ -67,10 +67,10 @@ module.exports.createWebhook = async (event) => {
           cmp_id:a.cmp_id,
           isActive:a.isActive,
           isDeleted:a.isDeleted,
-          added_ts:moment(a.added_ts).format('D MMM YYYY,D MMM YYYY, hh:mm A'),
+          added_ts:moment(a.added_ts).format('D MMM YYYY, hh:mm A'),
           added_dt:a.added_dt,
           updated_dt:a.updated_dt,
-          updated_ts:moment(a.updated_ts).format('D MMM YYYY, D MMM YYYY, hh:mm A')
+          updated_ts:moment(a.updated_ts).format(' D MMM YYYY, hh:mm A')
 
           
           
