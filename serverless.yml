@@ -39,5 +39,5 @@ functions:
     events: 
       - http: 
           path: webhook/delete
-          method: delete
+          method: put
           cors: true

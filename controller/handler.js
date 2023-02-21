@@ -2,7 +2,7 @@ const db = require("../models")
 const webhook = db.webHook
 const sequelize=require("sequelize");
 const Op = sequelize.Op;
-const moment = require("moment")
+const moment = require("moment");
 
 module.exports.createWebhook = async (event) => {
 
@@ -91,7 +91,7 @@ module.exports.createWebhook = async (event) => {
     try {
       const { id } = JSON.parse(event.body);
 
-     const result =await webhook.destroy({ where: { id} });
+     const result =await webhook.update({is_deleted:1},{ where: { id} });
   
       return {
         statusCode: 200,
