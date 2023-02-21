@@ -27,21 +27,25 @@ module.exports=function(sequelize,DataTypes){
             type: DataTypes.INTEGER,
             defaultValue:0
           },
-          createdAt: {
+          added_dt: {
             type: DataTypes.DATE,
-            defaultValue: DataTypes.NOW
+            defaultValue:DataTypes.NOW
+            
           },
-          createdDt: {
+          added_ts: {
             type: DataTypes.DATE,
-            defaultValue: DataTypes.NOW
+            defaultValue:DataTypes.NOW
+            
           },
-          updatedAt: {
+          updated_dt: {
             type: DataTypes.DATE,
-            defaultValue: DataTypes.NOW
+            defaultValue:DataTypes.NOW
+            
           },
-          updatedDt: {
+          updated_ts: {
             type: DataTypes.DATE,
-            defaultValue: DataTypes.NOW
+            defaultValue:DataTypes.NOW
+            
           }
      
 },

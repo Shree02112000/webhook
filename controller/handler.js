@@ -2,6 +2,7 @@ const db = require("../models")
 const webhook = db.webHook
 const sequelize=require("sequelize");
 const Op = sequelize.Op;
+const moment = require("moment")
 
 module.exports.createWebhook = async (event) => {
   console.log(webhook,"ssddd")
@@ -53,15 +54,31 @@ module.exports.createWebhook = async (event) => {
   module.exports.listWebhooks = async (event) => {
     try {
       const { page = 1, limit = 10 } = event.queryStringParameters || {};
-  
+    
       const { count, rows } = await webhook.findAndCountAll({
         offset: (page - 1) * limit,
         limit,
       });
-  
+      let list = rows.map(a=>{
+        return {
+          id:a.id ,
+          event_type:a.event_type,
+          webhook_url:a.webhook_url,
+          cmp_id:a.cmp_id,
+          added_ts:moment(a.added_ts).format('Do MMMM YYYY, h:mm:ss a'),
+          added_dt:a.added_dt,
+          isActive:a.isActive,
+          isDeleted:a.isDeleted,
+          updated_dt:a.updated_dt,
+          updated_ts:moment(a.updated_ts).format('DO MMMM YYYY, h:mm:ss a')
+
+          
+          
+        }
+      })
       return {
         statusCode: 200,
-        body: JSON.stringify({ count, rows }),
+        body: JSON.stringify({ count,list}),
       };
     } catch (error) {
       console.error(error);
