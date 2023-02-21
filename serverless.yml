@@ -1,0 +1,43 @@
+service: serverkless
+provider:
+  name: aws
+  region: ap-south-1
+  timeout: 30
+  stage: dev
+  
+plugins:
+  - serverless-offline
+functions: 
+
+  createWebhook:
+    handler: controller/handler.createWebhook
+    events: 
+      - http: 
+          path: webhook/add
+          method: post
+          cors: true
+
+  updateWebhook:
+    handler: controller/handler.updateWebhook
+    events: 
+      - http: 
+          path: webhook/update
+          method: put
+          cors: true
+
+  listWebhook:
+    handler: controller/handler.listWebhooks
+    events: 
+      - http: 
+          path: webhook/list
+          method: get
+          cors: true
+          
+
+  deleteWebhook:
+    handler: controller/handler.deleteWebhook
+    events: 
+      - http: 
+          path: webhook/delete
+          method: delete
+          cors: true
