@@ -1,28 +1,3 @@
-// const dbconfig = require("../config/db.config");
-// const Sequelize =  require("Sequelize");
-// const sequelize= new Sequelize(dbconfig.DB,dbconfig.USER,dbconfig.PASSWORD,{
-//     host:dbconfig.HOST,
-//     dialect:dbconfig.dialect,
-//     pool:{
-//         max:dbconfig.pool.max,
-//         min:dbconfig.pool.min,
-//         acquire:dbconfig.pool.acquire,
-//         idle:dbconfig.pool.idle
-//     }
-// });
-// const db ={}    ;
-// db.Sequelize =Sequelize;
-// db.sequelize=sequelize;
-// db.webHook=require("./webHook")(sequelize,Sequelize);
-// db.sequelize.sync()
-//    .then(() => {
-//      console.log("Synced db.");
-//    })
-//    .catch((err) => {
-//      console.log("Failed to sync db: " + err.message);
-//    });
-
-// module.exports=db;
 'use strict';
 
 const fs = require('fs');
@@ -62,7 +37,7 @@ fs.readdirSync(__dirname)
   });
 
 Object.keys(db).forEach(modelName => {
-  // console.log(modelName)
+  
   if (db[modelName].associate) {
     console.log(modelName)
     db[modelName].associate(db);

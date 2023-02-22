@@ -50,6 +50,6 @@ module.exports=function(sequelize,DataTypes){
           }
      
 },
-{tableName:"webhook",timestamps:true}
+{tableName:"webhooks",timestamps:false}
 )
 };

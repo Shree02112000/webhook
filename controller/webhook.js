@@ -1,11 +1,25 @@
 const db = require("../models")
-const webhook = db.webHook
+const webhook = db.webhook
 const sequelize=require("sequelize");
-const Op = sequelize.Op;
 const moment = require("moment");
-const createHookValidate = require("../validator/validate")
-const updateHookValidate = require("../validator/validate")
+const {createHookValidate,updateHookValidate} = require("../validator/validate")
 
+function response (showMessage, message, code, responseData) {
+  var response = {
+      statusCode: 200, body: JSON.stringify({
+          "showMessage": showMessage,
+          "responseCode": code,
+          "responseStatus": code === 1 ? "Error" : "Success",
+          "responseMessage": message,
+          "response": responseData
+      }), headers: {
+          'Content-Type': 'application/json; charset=utf-8', 
+          'Access-Control-Allow-Origin': '*'
+      }
+  };
+
+  return response;
+}
 
 module.exports.createWebhook = async (event) => {
 
@@ -15,17 +29,11 @@ module.exports.createWebhook = async (event) => {
       const validate = await createHookValidate.validateAsync
       const newWebhook = await webhook.create({ event_type,webhook_url,cmp_id },validate);
   
-      return {
-        statusCode: 200,
-        body: JSON.stringify(newWebhook),
-      };
+      return response (true,"Webhook created successfully",1)
     } catch (error) {
       console.error(error);
   
-      return {
-        statusCode: 500,
-        body: JSON.stringify({ error: 'Failed to create webhook.' }),
-      };
+      return response(false,"Fail to create webhook",1 ,error)
     }
   };
 
@@ -36,22 +44,16 @@ module.exports.createWebhook = async (event) => {
       let obj  = { event_type:updateWebhook.event_type,
                   webhook_url:updateWebhook.webhook_url,
                   cmp_id:updateWebhook.cmp_id }
-           let updatedwebhook=  await webhook.update( validate,
+           let updatedwebhook=  await webhook.update( 
         obj,
         { where: { id:updateWebhook.id } }
       );
   
-      return {
-        statusCode: 200,
-        body: JSON.stringify(updatedwebhook),
-      };
+      return response(true,"Webhook updated successfully",0,updatedwebhook)
+        
     } catch (error) {
       console.error(error);
-  
-      return {
-        statusCode: 500,
-        body: JSON.stringify({ error: 'Failed to update webhook.' }),
-      };
+     return response(false,"Fail to update webhook",1 ,error)
     }
   };
 
@@ -77,36 +79,24 @@ module.exports.createWebhook = async (event) => {
           updated_ts:moment(a.updated_ts).format('D MMM YYYY, hh:mm A'),
         }
       })
-      return {
-        statusCode: 200,
-        body: JSON.stringify({ count,list}),
-      };
+      return response (true,count,list)
     } catch (error) {
       console.error(error);
   
-      return {
-        statusCode: 500,
-        body: JSON.stringify({ error: 'Failed to list webhooks.' }),
-      };
+      return response(false,"Fail to list webhook",1 ,error)
     }
   };
 
   module.exports.deleteWebhook = async (event) => {
     try {
-      const { id } = JSON.parse(event.body);
+      const { id,cmp_id } = JSON.parse(event.body);
       var date = new Date();
-     const result =await webhook.update({is_deleted:1,updated_ts:date,updated_dt:date},{ where: { id:id} });
+     const result =await webhook.update({is_deleted:1,updated_ts:date,updated_dt:date},{ where: { id:id ,cmp_id:cmp_id} });
   
-      return {
-        statusCode: 200,
-        body:JSON.stringify({message:"deleted succesfully" ,result})
-      };
+      return response (true,"Sucessfully Deleted",result,1)
     } catch (error) {
       console.error(error);
-      return {
-        statusCode: 500,
-        body: JSON.stringify({ error: 'Failed to delete webhook.' }),
-      };
+      return response(false,"Fail to delete webhook",1 ,error)
     }
   };
   

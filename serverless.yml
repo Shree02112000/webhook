@@ -1,4 +1,4 @@
-service: serverkless
+service: webhookEvents
 provider:
   name: aws
   region: ap-south-1
@@ -10,7 +10,7 @@ plugins:
 functions: 
 
   createWebhook:
-    handler: controller/handler.createWebhook
+    handler: controller/webhook.createWebhook
     events: 
       - http: 
           path: webhook/add
@@ -18,7 +18,7 @@ functions:
           cors: true
 
   updateWebhook:
-    handler: controller/handler.updateWebhook
+    handler: controller/webhook.updateWebhook
     events: 
       - http: 
           path: webhook/update
@@ -26,7 +26,7 @@ functions:
           cors: true
 
   listWebhook:
-    handler: controller/handler.listWebhooks
+    handler: controller/webhook.listWebhooks
     events: 
       - http: 
           path: webhook/list
@@ -35,7 +35,7 @@ functions:
           
 
   deleteWebhook:
-    handler: controller/handler.deleteWebhook
+    handler: controller/webhook.deleteWebhook
     events: 
       - http: 
           path: webhook/delete
