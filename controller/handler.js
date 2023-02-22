@@ -3,13 +3,17 @@ const webhook = db.webHook
 const sequelize=require("sequelize");
 const Op = sequelize.Op;
 const moment = require("moment");
+const createHookValidate = require("../validator/validate")
+const updateHookValidate = require("../validator/validate")
+
 
 module.exports.createWebhook = async (event) => {
 
     try {
+      
       const {event_type,webhook_url,cmp_id } = JSON.parse(event.body);
-  
-      const newWebhook = await webhook.create({ event_type,webhook_url,cmp_id });
+      const validate = await createHookValidate.validateAsync
+      const newWebhook = await webhook.create({ event_type,webhook_url,cmp_id },validate);
   
       return {
         statusCode: 200,
@@ -27,12 +31,12 @@ module.exports.createWebhook = async (event) => {
 
   module.exports.updateWebhook = async (event) => {
     try {
-      
+      const validate = await updateHookValidate.validateAsync
       const updateWebhook = JSON.parse(event.body);
       let obj  = { event_type:updateWebhook.event_type,
                   webhook_url:updateWebhook.webhook_url,
                   cmp_id:updateWebhook.cmp_id }
-           let updatedwebhook=  await webhook.update(
+           let updatedwebhook=  await webhook.update( validate,
         obj,
         { where: { id:updateWebhook.id } }
       );

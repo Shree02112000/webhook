@@ -17,7 +17,8 @@ module.exports=function(sequelize,DataTypes){
               },
         },
         cmp_id:{
-            type:DataTypes.INTEGER
+            type:DataTypes.INTEGER,
+            unique:true
         },
         is_active: {
             type: DataTypes.INTEGER,
